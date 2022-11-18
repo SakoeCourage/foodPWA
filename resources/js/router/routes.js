@@ -1,49 +1,82 @@
 import AddFood from '../views/AddFood.vue'
 import Home from '../views/Home.vue'
-import Messages from '../views/Messages.vue'
+import Meetup from '../views/Meetup.vue'
 import Notifications from '../views/Notifications.vue'
 import Settings from '../views/Settings.vue'
 import Viewdish from '../views/Viewdish.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Createprofile from '../views/Createprofile.vue'
 
 const routes = [{
         path: '/',
         component: Home,
-        name: "Home"
+        name: "Home",
+        meta: {
+            NotfullScreen: false,
+        }
     },
     {
         path: '/add',
         name: 'AddDish',
-        component: AddFood
+        component: AddFood,
+        meta: {
+            NotfullScreen: false,
+        }
     },
     {
-        path: '/messages',
-        component: Messages
+        path: '/meetup',
+        component: Meetup,
+        meta: {
+            fullScreen: false,
+        }
     },
     {
         path: '/notifications',
-        component: Notifications
+        component: Notifications,
+        meta: {
+            fullScreen: false,
+        }
     },
     {
         path: '/viewdish/:slug',
         component: Viewdish,
-        name: 'Viewdish'
+        name: 'Viewdish',
+        meta: {
+            fullScreen: true,
+        }
     },
     {
         path: '/settings',
         component: Settings,
-        name: 'Settings'
+        name: 'Settings',
+        meta: {
+            fullScreen: false,
+        }
     },
     {
         path: '/login',
         component: Login,
-        name: 'Login'
+        name: 'Login',
+        meta: {
+            fullScreen: true,
+        }
     },
     {
         path: '/register',
         component: Register,
-        name: 'Register'
+        name: 'Register',
+        meta: {
+            fullScreen: true,
+        }
+    },
+    {
+        path: '/profile/create',
+        component: Createprofile,
+        name: 'createprofile',
+        meta: {
+            fullScreen: true,
+        }
     },
 ]
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\AddDish;
+use App\Models\AddDish as Dish;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -17,21 +17,25 @@ class AddDishController extends Controller
 {
    
     public function index( ){
-        $dish = addDish::Query();
-        return $dish->filter(request(['search','sort','dishType','difficulty']))
-                    ->with(['user:id,name','dishtype'])
-                    ->latest()
-                    ->paginate(4)
-                    ->withQueryString();
+        $dish = Dish::Query();
+        return 
+           $dish->filter(request(['search','sort','dishType','difficulty']))
+            ->with(['user:id,name','dishtype'])
+            ->latest()
+            ->paginate(4)
+            ->withQueryString();
     }
 
-    public function getFeaturedDish(AddDish $dish){
+    public function getFeaturedDish(Dish $dish){
         return $dish->with('user:id,name')->first();
     }
    
     public function getdishbyslug($slug){
-        return AddDish::with(['procedure', 'ingredient'])->
-        where('slug',$slug)->firstOrFail();
+        
+        return ([
+            'post' => Dish::with(['procedure', 'ingredient'])-> where('slug',$slug)->firstOrFail(),
+            'favoritesCount' => Dish::where('slug',$slug)->firstOrFail()->favoriters()->count()
+        ]);
     }
 
     public  function storeimage($imagefile, $dishname)
@@ -56,18 +60,18 @@ class AddDishController extends Controller
     }
 
 
-    public function addDish(Request $request){
+    public function createDish(Request $request){
        
         $request->validate([
             'dishname'=>'required|string|max:255',
             'ingredients' => 'required',
-            'image' => 'required|mimes:tiff,jpeg,jpg,png|image|max:8048',
+            'image' => 'required|image|mimes:tiff,jpeg,jpg,png|max:4048',
             'procedures' => 'required',
             'difficultyLevel' => 'required|string|max:255',
             'dishtypeid' => 'required|integer'
         ]);  
         // Creating new dish 
-        $createdish = AddDish::Create([
+        $createdish = Dish::Create([
             'user_id'=>Auth()->user()->id,
             'dishname' =>$request->dishname,
             'difficulty' =>$request->difficultyLevel,

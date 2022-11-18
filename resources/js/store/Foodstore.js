@@ -31,7 +31,9 @@ export const useFoodStore = defineStore('foodstore', {
             this.$state.alldish = null
             Api.get(this.$state.urlString).then(res => {
                 let data = res.data.data
+                console.log(res.data)
                 this.$state.alldish = [...data]
+
                 this.$state.nextPageUrl = res.data.next_page_url
                 this.$state.loadingAllDish = false
             }).catch(error => {
@@ -46,6 +48,7 @@ export const useFoodStore = defineStore('foodstore', {
                 this.$state.alldish = [...this.$state.alldish, ...data]
                 this.$state.nextPageUrl = res.data.next_page_url
                 this.$state.loadingAllDish = false
+
             }).catch(error => {
                 console.log(error)
             })

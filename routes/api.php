@@ -16,20 +16,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-   
+    return ([
+        'user' => $request->user()
+    ]);
 });
 
 
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class,'register']);
 Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class,'authenticate']);
 Route::post('/logout', [\App\Http\Controllers\Auth\UserController::class,'logout']);
-Route::post('/adddish',[\App\Http\Controllers\AddDishController::class,'addDish']);
+Route::post('/adddish',[\App\Http\Controllers\AddDishController::class,'createDish']);
 Route::get('/dish/all',[\App\Http\Controllers\AddDishController::class,'index']);
 Route::get('/dish/featured',[\App\Http\Controllers\AddDishController::class,'getFeaturedDish']);
 Route::get('/dish/getdish/{adddish:slug}',[\App\Http\Controllers\AddDishController::class,'getdishbyslug']);
 Route::get('/dish/getdishtypes',[\App\Http\Controllers\DishtypeController::class,'index']);
+Route::get('/dish/togglefavorites/{dish}',[\App\Http\Controllers\FavoritesController::class,'togglefavorites']);
 
+Route::get('/notifications/unread',[\App\Http\Controllers\NotificationsController::class, 'index']);
+Route::get('/notifications/all',[\App\Http\Controllers\NotificationsController::class, 'getUserNotifications']);
+Route::post('/profile/createorupdate', [\App\Http\Controllers\ProfileController::class, 'create']);
 
 
 

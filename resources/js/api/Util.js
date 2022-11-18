@@ -7,7 +7,7 @@ dayjs.extend(relativeTime);
 
 
 export function setImage(created_at, img) {
-    let path = 'http://127.0.0.1:8000/storage/images/foodthumbnails'
+    let path =  import.meta.env.VITE_FOOD_THUNBNAILSPATH
     let year = dayjs(created_at).year()
     let month = getmonth(dayjs(created_at).month())
 

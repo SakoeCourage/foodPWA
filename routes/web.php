@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('vue');
+});
+
+Route::get('/brodcast',function(){
+        broadcast(new \App\Events\DishMarkedEvent(4));
 });
 
 Route::get('/{any}', function () {

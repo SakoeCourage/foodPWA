@@ -38,17 +38,24 @@
             </nav>
         </div>
         <hr class="border border-gray-50 shadow-md mt-2">
-        <div class="mt-4 px-2 pb-10 flex justify-center ">
-            <button @click.prevent="postdish" class="border  border-orange-300/60 text-gray-600 rounded-sm  w-full px-2 py-1 tracking-wider   text-sm">
-                submit dish
+        <div class="mt-4 px-2 pb-10 flex justify-center gap-2 ">
+            <button v-if="isLoading" class="bg-orange-300/90 w-2 h-10 rounded-full px-2 py-2 " :class="isLoading &&'animate-bounce opacity-70 delay-100  '">
             </button>
+            <button @click.prevent="postdish" class="bg-orange-300/90  text-white w-full px-2 py-2 tracking-wider  text-sm transition-all addtimingfunction  " 
+                :class="isLoading ? 'w-5 h-10 rounded-full animate-bounce opacity-70 delay-150': 'w-full h-10 rounded-lg '">
+                <span v-if="!isLoading"> submit dish</span>
+            </button>
+            <button v-if="isLoading" class="bg-orange-300/90 w-2 h-10 rounded-full px-2 py-2" :class="isLoading && 'animate-bounce opacity-70'">
+            </button>
+
         </div>
+     
     </section>
 </div>
 </div>
 </template>
 
-<script setup >
+<script setup>
 
 import Imageframe from './components/Imageframe.vue';
 import {computed, reactive, ref, watch} from 'vue';
@@ -58,6 +65,7 @@ import Selectdifficultlevel from './components/Selectdifficultlevel.vue';
 import Selectdishtype from './components/Selectdishtype.vue';
 import Api from '../api/Api';
 
+let isLoading = ref(false)
 let foodData = reactive({
     difficultyLevel: "Easy",
     procedures: [],
@@ -88,6 +96,7 @@ let getIngredient = (ingredient)=>{
 }
 
 let postdish = () =>{
+    isLoading.value = true
     const config = {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -103,15 +112,35 @@ let postdish = () =>{
 
     Api.post('/adddish',data,config).then(res=>{
         console.log(res.data)
+        isLoading.value = false
     }).catch(error=>{
+        isLoading.value = false
         console.log(error.response)
     })
-}
+    }
 
 
 
 
 
 </script>
+
+
+<style scoped>
+.addtimingfunction{
+    transition-timing-function: cubic-bezier(.05,.78,.38,1.09);
+    transition-duration: 300ms;
+}
+
+.delay-100{
+    animation-delay: 100ms;
+}
+.delay-150{
+    animation-delay: 150ms;
+}
+
+
+
+</style>
 
 

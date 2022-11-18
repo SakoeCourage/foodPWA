@@ -5,22 +5,24 @@
                 <font-awesome-icon icon="home" size="lg" />
                 <!-- home -->
             </router-link>
-            <router-link to="/messages">
-                <font-awesome-icon icon="message" size="lg" />
+            <router-link to="/meetup">
+                <font-awesome-icon icon="user" size="lg" />
             </router-link>
-            <router-link to="/add" class="bg-primaryorange shadow-md addfood p-1 px-3 grid place-items-center aspect-square rounded-full transform -translate-y-[40%] text-white ">
+            <router-link to="/add" class="bg-primaryorange shadow-lg shadow-gray-400 addfood p-1 px-3 grid place-items-center aspect-square rounded-full  text-white ">
                 <font-awesome-icon icon="plus" size="xl" />
             </router-link>
-            <router-link to="/notifications">
-                <font-awesome-icon icon="bell" size="lg" />
+            <router-link to="/notifications" class="relative">
+                    <Unreadcount />
+                    <font-awesome-icon icon="bell" size="lg" />
             </router-link>
             <router-link to="/settings">
-                <font-awesome-icon icon="gear" size="lg" />
+                <font-awesome-icon icon="gear" size="lg"/>
             </router-link>
         </nav>
     </div>
 </template>
-<script>
+<script setup>
+import Unreadcount from './Unreadcount.vue';
     
 </script>
 

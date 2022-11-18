@@ -15,7 +15,7 @@
           </nav>
         </section>
         <section class="mt-5 ">
-         <nav class="mb-5 font-bold text-gray-800/80 text-2xl "> {{ auth.user?.name  }}</nav>
+         <nav class="mb-5 font-bold text-gray-800/80 text-2xl "> {{ auth.user?.user.name  }}</nav>
           <Foodherobanner v-if="featureddish"
             :created_at="featureddish.created_at"
             :author_name="featureddish.user.name"
@@ -48,9 +48,10 @@
     </div>
 </template>
  <script setup>
+ 
   import {computed, nextTick, onBeforeUnmount, onMounted, onUnmounted, ref, watch} from 'vue'
   import { useFoodStore } from '../store/Foodstore';
-  import {useSearchresultsStore} from '../store/Searchresultstore' 
+  import {useSearchresultsStore} from '../store/Searchresultstore';
   import {useRoute,useRouter} from 'vue-router'
   import Api from '../api/Api';
   import Foodherobanner from './components/Foodherobanner.vue';
@@ -63,7 +64,6 @@
   import { useUserStore } from "../store/Userstore";
   import Dishloadingskeleton from './components/Dishloadingskeleton.vue';
   import {storeToRefs} from 'pinia'
-  let fooditem = ref(null)
   const userstore = useUserStore()
   const {auth} = storeToRefs(userstore)
   const foodstore = useFoodStore()
@@ -74,7 +74,7 @@
  
   let documentPage = computed(() => document.querySelector('#documentpage'))
   
-  let infinityScroll = ()=>{
+  let infinityScroll = () =>{
     let scrolled = documentPage.value.scrollTop +  documentPage.value.getBoundingClientRect().height
     let offsetY =  documentPage.value.firstElementChild.offsetHeight
     let percentagescrolled = (scrolled/offsetY) * 100 

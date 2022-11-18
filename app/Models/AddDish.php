@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use App\Models\dishtype;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
 
 class AddDish extends Model
 {
-    use HasFactory;
-    use Sluggable;
+    use HasFactory, Sluggable ,Favoriteable;
     protected $guarded = ['id'];
 
     public function sluggable(): array
@@ -37,6 +37,9 @@ class AddDish extends Model
     public function dishtype()
     {
         return $this->belongsTo(\App\Models\dishtype::class);
+    }
+    public function userprofile(){
+        return $this->user()->profile;
     }
 
     public function scopeFilter($query, array $filters)

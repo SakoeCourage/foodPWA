@@ -4,9 +4,11 @@
         <div class="container mx-auto   flex-1 px-2   " :class="hideoverflow ?'overflow-y-hidden' :'overflow-y-scroll'" id="documentpage">
             <router-view />
         </div>
-        <footer class=" end " v-if="!searchResults">
+        <Transition name="fade">
+        <footer class=" end " v-if="!fullScreen">
             <Navlinks class="w-full shadow-2xl" />
         </footer>
+    </Transition>
     </main>
 </div>
 </template>
@@ -24,14 +26,13 @@ const searchresultstore = useSearchresultsStore()
 const {searchResults} = storeToRefs(searchresultstore)
 let hideoverflow = ref(false)
 
-
 let showNavlinks = ref(true)
 let excludedRoutes = ['Login','Register']
 let route = useRoute();
 
 const userStore = useUserStore()
-const {auth} = storeToRefs(userStore) 
-const {getUser} = userStore
+const {auth,fullScreen} = storeToRefs(userStore) 
+const {getUser,getnotificationsCount} = userStore
 
 const documentPage = computed(()=>document.querySelector('#documentpage'))
 
@@ -43,17 +44,34 @@ watch(()=>route.name, (value)=>{
 
 watch(()=>auth.value,(value)=>{
     console.log(value)
+
 })
+watch(()=>fullScreen.value,(value)=>{
+    console.log(value)
+
+})
+
 
 watch(()=>searchResults.value,(value)=>{
     if(value){
         hideoverflow.value = true
+        fullScreen.value = true
     }else{
         hideoverflow.value = false
+        fullScreen.value = false
     }
 })
 onMounted(()=>{
     getUser()
+    getnotificationsCount()
+    Echo.channel('usernotification')
+    .listen('.dishfavorited', (e) => {
+        // alert('im triggered')
+
+        console.log("im trigger");
+        // alert('event triggered')
+    });
+ 
 })
 </script>
 
@@ -66,6 +84,16 @@ onMounted(()=>{
 } */
 .hidescroll::-webkit-scrollbar{
     width: 1px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 

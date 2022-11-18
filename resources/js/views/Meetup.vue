@@ -1,5 +1,5 @@
 <template>
     <div>
-        this is for messages
+        this is for meet ups
     </div>
 </template>

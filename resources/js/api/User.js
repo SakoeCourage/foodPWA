@@ -11,7 +11,6 @@ export default {
         await getCookie.getCookie();
         return Api.post("/login", form);
     },
-
     async logout() {
         await getCookie.getCookie();
         return Api.post("/logout");
