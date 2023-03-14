@@ -15,7 +15,7 @@
           </nav>
         </section>
         <section class="mt-5 ">
-         <nav class="mb-5 font-bold text-gray-800/80 text-2xl "> {{ auth.user?.user.name  }}</nav>
+         <nav class="mb-5 font-bold text-gray-800/80 text-2xl "> {{ auth.user?.name  }}</nav>
           <Foodherobanner v-if="featureddish"
             :created_at="featureddish.created_at"
             :author_name="featureddish.user.name"

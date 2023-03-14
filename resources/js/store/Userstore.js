@@ -2,12 +2,16 @@ import { defineStore } from 'pinia'
 import Api from '../api/Api'
 import User from '../api/User'
 import getCookie from '../api/getCookie'
+import { useRouter } from 'vue-router'
+
 
 
 export const useUserStore = defineStore('user', {
     state: () => ({
         auth: {
             user: null,
+            profile: null
+            
 
         },
         isLoadingNotifications: false,
@@ -21,15 +25,20 @@ export const useUserStore = defineStore('user', {
 
     actions: {
         async getUser() {
+            const router = useRouter()
             let cookie = await getCookie.getCookie()
             User.auth().then((res) => {
-                this.$state.auth.user = res.data
+                const { user, profile } = res.data 
+                if(!profile){
+                    router.push({ name: 'createprofile' })
+                }
+                this.$state.auth.user = user
+                this.$state.auth.profile = profile
                 console.log(this.$state.auth)
 
             }).catch(error => {
                 console.log(error.response.data)
             })
-
         },
 
         async getnotificationsCount() {

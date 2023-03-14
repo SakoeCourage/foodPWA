@@ -38,8 +38,10 @@ class AddDish extends Model
     {
         return $this->belongsTo(\App\Models\dishtype::class);
     }
-    public function userprofile(){
-        return $this->user()->profile;
+   
+    public function userprofile()
+    {
+        return $this->hasOneThrough(\App\Models\User::class, \App\Models\Profile::class);
     }
 
     public function scopeFilter($query, array $filters)

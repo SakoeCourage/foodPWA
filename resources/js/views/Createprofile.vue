@@ -1,7 +1,7 @@
 <template>
   <Transition appear name="slide">
     <div class="h-screen relative">
-        <font-awesome-icon class="absolute top-5 right-5 text-gray-500 bg-gray-100 p-2 px-3 rounded-full" icon="close" />
+        <font-awesome-icon class="absolute top-5 right-5 text-gray-500 bg-gray-100 p-2 px-3 rounded-full cursor-pointer hover:text-red-400" icon="close" @click="$router.push('/')"/>
         <div class=" grid place-items-center h-full">
         <!-- remove bg-gray-later -->
         <nav class=" h-[50%] w-[70%] relative  ">
